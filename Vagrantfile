@@ -52,9 +52,9 @@ Vagrant.configure("2") do |config|
     sudo apt-get install -y autoconf
     wget -q https://ftp.gnu.org/gnu/automake/automake-1.15.1.tar.gz
     tar xvfz automake-1.15.1.tar.gz
-    ./automake-1.15.1/configure
-    cd automake-1.15.1/; make; cd -
-    cd automake-1.15.1/; sudo make install -y; cd -
+    cd automake-1.15.1/; ./configure; cd -;
+    cd automake-1.15.1/; make; cd -;
+    cd automake-1.15.1/; sudo make install; cd -
 
     EOS
 
