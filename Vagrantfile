@@ -48,6 +48,7 @@ Vagrant.configure("2") do |config|
     sudo apt-get clean
 
     sudo apt-get install -y build-essential
+    sudo apt-get install libssl-dev
     sudo apt-get install -y git
 
     sudo apt-get install -y autoconf
