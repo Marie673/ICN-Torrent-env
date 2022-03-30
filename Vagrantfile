@@ -39,6 +39,26 @@ Vagrant.configure("2") do |config|
     vb.memory = "8192"
   end
 
+  config.vm.provision :shell, :inline => <<-EOS
+    sudo apt-get update
+    sudo apt-get upgrade -y
+    sudo apt-get full-upgrade -y
+    sudo apt-get autoremove -y
+    sudo apt-get autoclean
+    sudo apt-get clean
+
+    sudo apt-get install -y build-essential
+
+    sudo apt-get install -y autoconf
+    wget -q https://ftp.gnu.org/gnu/automake/automake-1.15.1.tar.gz
+    tar xvfz automake-1.15.1.tar.gz
+    ./automake-1.15.1/configure
+    cd automake-1.15.1/; make; cd -
+    cd automake-1.15.1/; sudo make install -y; cd -
+
+    EOS
+
+
 
   # config.vm.provision "shell", inline: <<-SHELL
   #   apt-get update
