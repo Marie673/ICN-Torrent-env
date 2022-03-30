@@ -38,7 +38,7 @@ Vagrant.configure("2") do |config|
     # Customize the amount of memory on the VM:
     vb.memory = "8192"
   end
-//test
+
   config.vm.provision :shell, :inline => <<-EOS
     sudo apt-get update
     sudo apt-get upgrade -y
@@ -48,6 +48,7 @@ Vagrant.configure("2") do |config|
     sudo apt-get clean
 
     sudo apt-get install -y build-essential
+    sudo apt-get install -y git
 
     sudo apt-get install -y autoconf
     wget -q https://ftp.gnu.org/gnu/automake/automake-1.15.1.tar.gz
@@ -55,6 +56,14 @@ Vagrant.configure("2") do |config|
     cd automake-1.15.1/; ./configure; cd -;
     cd automake-1.15.1/; make; cd -;
     cd automake-1.15.1/; sudo make install; cd -
+
+    git clone https://github.com/cefore/cefore.git
+    cd cefore/; autoconf; cd -
+    cd cefore/; automake; cd -
+    cd cefore/; ./configure --enable-csmgr --enable-cache; cd -
+    cd cefore/; make; cd -
+    cd cefore/; sudo make install; cd -
+    cd cefore/; sudo ldconfig; cd -
 
     EOS
 
