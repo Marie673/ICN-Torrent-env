@@ -38,7 +38,7 @@ Vagrant.configure("2") do |config|
     # Customize the amount of memory on the VM:
     vb.memory = "8192"
   end
-
+//test
   config.vm.provision :shell, :inline => <<-EOS
     sudo apt-get update
     sudo apt-get upgrade -y
