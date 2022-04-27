@@ -25,7 +25,7 @@ Vagrant.configure("2") do |config|
     config.vm.define "provider#{id}" do |provider|
     provider.vm.hostname = "provider#{id}"
     provider.vm.network "private_network", ip: "192.168.57.#{10+id}"
-    # 下記を記入(xxxは任意の数値)
+    # 固定 IP を割り当てる場合
     provider.vm.network "public_network"
     end
   end
