@@ -24,8 +24,9 @@ Vagrant.configure("2") do |config|
   (1..MAX_OF_PROVIDER).each do |id|
     config.vm.define "provider#{id}" do |provider|
     provider.vm.hostname = "provider#{id}"
-    provider.vm.network :forwarded_port, guest:22, host:2001, id:"ssh"
     provider.vm.network "private_network", ip: "192.168.57.#{10+id}"
+    # 下記を記入(xxxは任意の数値)
+    provider.vm.network "public_network"
     end
   end
 
