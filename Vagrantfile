@@ -5,9 +5,6 @@ Vagrant.configure("2") do |config|
   config.vm.box = "bento/ubuntu-18.04"
   config.ssh.insert_key = false
   config.ssh.private_key_path = "~/.ssh/insecure_private_key"
-  config.vm.provider "virtualbox" do |vb|
-    vb.customize ["modifyvm", :id, "--cableconnected1", "on"]
-  end
 
   config.vm.define "proxy" do |proxy|
     proxy.vm.hostname = "proxy"
@@ -42,6 +39,7 @@ Vagrant.configure("2") do |config|
     vb.gui = false
     # Customize the amount of memory on the VM:
     vb.memory = "8192"
+    vb.customize ["modifyvm", :id, "--cableconnected1", "on"]
   end
 
   config.vm.provision :shell, :inline => <<-EOS
