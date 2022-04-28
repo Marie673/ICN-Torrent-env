@@ -5,6 +5,7 @@ Vagrant.configure("2") do |config|
   config.vm.box = "bento/ubuntu-18.04"
   config.ssh.insert_key = false
   config.ssh.private_key_path = "~/.ssh/insecure_private_key"
+  config.customize [“modifyvm”, :id, “–cableconnected1”, “on”]
 
   config.vm.define "proxy" do |proxy|
     proxy.vm.hostname = "proxy"
