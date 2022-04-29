@@ -39,7 +39,7 @@ Vagrant.configure("2") do |config|
     vb.gui = false
     # Customize the amount of memory on the VM:
     vb.memory = "8192"
-    vb.customize ["modifyvm", :id, "--cableconnected1", "on"]
+    # vb.customize ["modifyvm", :id, "--cableconnected1", "on"]
   end
 
   config.vm.provision :shell, :inline => <<-EOS
