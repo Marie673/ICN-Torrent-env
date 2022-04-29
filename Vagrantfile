@@ -6,6 +6,14 @@ Vagrant.configure("2") do |config|
   config.ssh.insert_key = false
   config.ssh.private_key_path = "~/.ssh/insecure_private_key"
 
+  config.vm.provider "virtualbox" do |vb|
+    # Display the VirtualBox GUI when booting the machine
+    vb.gui = false
+    # Customize the amount of memory on the VM:
+    vb.memory = "8192"
+    vb.customize ["modifyvm", :id, "--cableconnected1", "on"]
+  end
+
   config.vm.define "proxy" do |proxy|
     proxy.vm.hostname = "proxy"
     proxy.vm.network "private_network", ip: "192.168.56.10", virtualbox__intnet: true
@@ -34,13 +42,7 @@ Vagrant.configure("2") do |config|
 
   # config.vm.synced_folder "../data", "/vagrant_data"
 
-  config.vm.provider "virtualbox" do |vb|
-    # Display the VirtualBox GUI when booting the machine
-    vb.gui = false
-    # Customize the amount of memory on the VM:
-    vb.memory = "8192"
-    # vb.customize ["modifyvm", :id, "--cableconnected1", "on"]
-  end
+
 
   config.vm.provision :shell, :inline => <<-EOS
     sudo apt-get update
