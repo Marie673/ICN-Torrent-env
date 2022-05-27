@@ -1,3 +1,10 @@
 #!/bin/sh
 
-sudo apt-get install gnome-core
+sudo apt-get install gnome-core -y
+sudo service gdm start
+sudo apt-get install ubuntu-desktop -y
+sudo apt-get install lxde -y
+
+sudo apt-get install vnc4server -y
+vncserver Password
+vncserver -kill :1
