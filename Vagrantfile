@@ -14,6 +14,11 @@ Vagrant.configure("2") do |config|
     vb.customize ["modifyvm", :id, "--cableconnected1", "on"]
     vb.customize ["modifyvm", :id, "--uart1", "0x3F8", "4"]
     vb.customize ["modifyvm", :id, "--uartmode1", "file", File::NULL]
+    vb.customize ["modifyvm", :id, "--audio", "none"]
+    vb.customize ["modifyvm", :id, "--usb", "off"]
+    vb.customize ["modifyvm", :id, "--uart2", "off"]
+    vb.customize ["modifyvm", :id, "--uart3", "off"]
+    vb.customize ["modifyvm", :id, "--uart4", "off"]
   end
 
   config.vm.define "proxy" do |proxy|
