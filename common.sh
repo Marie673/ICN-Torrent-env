@@ -8,5 +8,6 @@ sudo apt-get autoclean
 sudo apt-get autoclean
 
 sudo apt-get install -y build-essential
-sudo apt-get install libssl-dev
+sudo apt-get install -y libssl-dev
 sudo apt-get install -y git
+sudo apt-get install -y expect
