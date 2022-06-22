@@ -2,88 +2,89 @@
 # vi: set ft=ruby :
 
 Vagrant.configure("2") do |config|
-  config.vm.box = "bento/ubuntu-18.04"
-  config.ssh.insert_key = false
-  config.ssh.private_key_path = "~/.ssh/insecure_private_key"
+    config.vm.box = "bento/ubuntu-20.04"
+    config.ssh.insert_key = false
+    config.ssh.private_key_path = "~/.ssh/insecure_private_key"
 
-  config.vm.provider "virtualbox" do |vb|
+    config.vm.provider "virtualbox" do |vb|
     # Display the VirtualBox GUI when booting the machine
-    vb.gui = false
-    # Customize the amount of memory on the VM:
-    vb.memory = "8192"
-    vb.customize ["modifyvm", :id, "--cableconnected1", "on"]
-    vb.customize ["modifyvm", :id, "--uart1", "0x3F8", "4"]
-    vb.customize ["modifyvm", :id, "--uartmode1", "file", File::NULL]
-    vb.customize ["modifyvm", :id, "--audio", "none"]
-    vb.customize ["modifyvm", :id, "--usb", "off"]
-    vb.customize ["modifyvm", :id, "--uart2", "off"]
-    vb.customize ["modifyvm", :id, "--uart3", "off"]
-    vb.customize ["modifyvm", :id, "--uart4", "off"]
-  end
-
-  config.vm.define "proxy" do |proxy|
-    proxy.vm.hostname = "proxy"
-    proxy.vm.network "private_network", ip: "192.168.56.10", virtualbox__intnet: true
-    proxy.vm.network "private_network", ip: "192.168.57.10", virtualbox__intnet: true
-  end
-
-  MAX_OF_CLIENT = (ENV["MAX_OF_CLIENT"] || 1).to_i
-  (1..MAX_OF_CLIENT).each do |id|
-    config.vm.define "client#{id}" do |client|
-    client.vm.hostname = "client#{id}"
-    client.vm.network "private_network", ip: "192.168.56.#{20+id}", virtualbox__intnet: true
+        vb.gui = false
+        # Customize the amount of memory on the VM:
+        vb.memory = "8192"
+        vb.customize ["modifyvm", :id, "--cableconnected1", "on"]
+        vb.customize ["modifyvm", :id, "--uart1", "0x3F8", "4"]
+        vb.customize ["modifyvm", :id, "--uartmode1", "file", File::NULL]
+        vb.customize ["modifyvm", :id, "--audio", "none"]
+        vb.customize ["modifyvm", :id, "--usb", "off"]
+        vb.customize ["modifyvm", :id, "--uart2", "off"]
+        vb.customize ["modifyvm", :id, "--uart3", "off"]
+        vb.customize ["modifyvm", :id, "--uart4", "off"]
     end
-  end
 
-  MAX_OF_PROVIDER = (ENV["MAX_OF_PROVIDER"] || 1).to_i
-  (1..MAX_OF_PROVIDER).each do |id|
-    config.vm.define "provider#{id}" do |provider|
-    provider.vm.hostname = "provider#{id}"
-    provider.vm.network "private_network", ip: "192.168.57.#{20+id}", virtualbox__intnet: true
-    # 固定 IP を割り当てる場合
-    provider.vm.network "public_network"
+    config.vm.define "proxy" do |proxy|
+        proxy.vm.hostname = "proxy"
+        proxy.vm.network "private_network", ip: "192.168.56.10", virtualbox__intnet: true
+        proxy.vm.network "private_network", ip: "192.168.57.10", virtualbox__intnet: true
+        proxy.vm.network "private_network", ip: "192.168.58.10", virtualbox__intnet: true
     end
-  end
 
-  # config.vm.network "public_network"
+    MAX_OF_PROVIDER = (ENV["MAX_OF_PROVIDER"] || 1).to_i
+    (1..MAX_OF_PROVIDER).each do |id|
+        config.vm.define "provider#{id}" do |provider|
+            provider.vm.hostname = "provider#{id}"
+            provider.vm.network "private_network", ip: "192.168.56.#{100+id}", virtualbox__intnet: true
+            # 固定 IP を割り当てる場合
+            provider.vm.network "public_network"
+        end
+    end
 
-  # config.vm.synced_folder "../data", "/vagrant_data"
-
-
-
-  config.vm.provision :shell, :inline => <<-EOS
-    sudo apt-get update
-    sudo apt-get upgrade -y
-    sudo apt-get full-upgrade -y
-    sudo apt-get autoremove -y
-    sudo apt-get autoclean
-    sudo apt-get clean
-
-    sudo apt-get install -y build-essential
-    sudo apt-get install libssl-dev
-    sudo apt-get install -y git
-
-    sudo apt-get install -y autoconf
-    wget -q https://ftp.gnu.org/gnu/automake/automake-1.15.1.tar.gz
-    tar xvfz automake-1.15.1.tar.gz
-    cd automake-1.15.1/; ./configure; cd -;
-    cd automake-1.15.1/; make; cd -;
-    cd automake-1.15.1/; sudo make install; cd -
-
-    git clone https://github.com/cefore/cefore.git
-    cd cefore/; autoconf; cd -
-    cd cefore/; automake; cd -
-    cd cefore/; ./configure --enable-csmgr --enable-cache; cd -
-    cd cefore/; make; cd -
-    cd cefore/; sudo make install; cd -
-    cd cefore/; sudo ldconfig; cd -
-
-    EOS
+    MAX_OF_CS_ROUTER = (ENV["MAX_OF_CS_ROUTER"] || 1).to_i
+    (1..MAX_OF_CS_ROUTER).each do |id|
+        config.vm.define "cs_router#{id}" do |cs_router|
+            cs_router.vm.hostname = "cs_router#{id}"
+            cs_router.vm.network "private_network", ip: "192.168.57.#{100+id}", virtualbox__intnet: true
+        end
+    end
 
 
+    MAX_OF_CLIENT = (ENV["MAX_OF_CLIENT"] || 1).to_i
+    (1..MAX_OF_CLIENT).each do |id|
+        config.vm.define "client#{id}" do |client|
+            client.vm.hostname = "client#{id}"
+            client.vm.network "private_network", ip: "192.168.58.#{100+id}", virtualbox__intnet: true
+        end
+    end
 
-  # config.vm.provision "shell", inline: <<-SHELL
-  #   apt-get update
-  #   apt-get install -y apache2
-  # SHELL
+    # config.vm.network "public_network"
+
+    # config.vm.synced_folder "../data", "/vagrant_data"
+
+    config.vm.provision :shell, path: "./common.sh"
+
+    (1..MAX_OF_PROVIDER).each do |id|
+        config.vm.define "provider#{id}" do |provider|
+            provider.vm.provision :shell, path: "./install_gnome.sh"
+        end
+    end
+
+    config.vm.define "proxy" do |proxy|
+        proxy.vm.provision :shell, path: "./install_cefore.sh"
+    end
+
+    (1..MAX_OF_CS_ROUTER).each do |id|
+        config.vm.define "cs_router#{id}" do |cs_router|
+            cs_router.vm.provision :shell, path: "./install_cefore.sh"
+        end
+    end
+
+    (1..MAX_OF_CLIENT).each do |id|
+        config.vm.define "client#{id}" do |client|
+            client.vm.provision :shell, path: "./install_cefore.sh"
+        end
+    end
+
+    # config.vm.provision "shell", inline: <<-SHELL
+    #   apt-get update
+    #   apt-get install -y apache2
+    # SHELL
 end

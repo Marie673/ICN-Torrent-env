@@ -14,3 +14,8 @@ cd cefore/ || exit; ./configure --enable-csmgr --enable-cache; cd - || exit
 cd cefore/ || exit; make; cd - || exit
 cd cefore/ || exit; sudo make install; cd - || exit
 cd cefore/ || exit; sudo ldconfig; cd - || exit
+
+git clone https://github.com/cefore/cefpyco.git
+pip install setuptools click numpy
+cd cefpyco/ || exit; cmake .; cd - || exit
+cd cefpyco/ || exit; sudo make install; cd - || exit
