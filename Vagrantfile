@@ -74,7 +74,7 @@ Vagrant.configure("2") do |config|
         proxy.vm.provision :shell, inline: "install_cefore.sh"
         # ceforeの設定
         proxy.vm.provision :shell, inline: "proxy/cefore_setting.sh"
-        proxy.vm.provision :shell, run: always, inline: "buffa_tune.sh"
+        proxy.vm.provision :shell, run: "always", inline: "buffa_tune.sh"
     end
     # client
     MAX_OF_CLIENT = (ENV["MAX_OF_CLIENT"] || 1).to_i
@@ -83,7 +83,7 @@ Vagrant.configure("2") do |config|
             client.vm.provision :shell, inline: "install_cefore.sh"
 
             client.vm.provision :shell, inline: "client/cefore_setting.sh"
-            client.vm.provision :shell, run: always, inline: "buffa_tune"
+            client.vm.provision :shell, run: "always", inline: "buffa_tune"
         end
     end
     # router
@@ -92,7 +92,7 @@ Vagrant.configure("2") do |config|
         config.vm.define "router#{id}" do |router|
             router.vm.provision :shell, inline: "install_cefore.sh"
             router.vm.provision :shell, inline: "router.cefore_setting.sh"
-            router.vm.provision :shell, run: always, inline: "buffa_tune.sh"
+            router.vm.provision :shell, run: "always", inline: "buffa_tune.sh"
         end
     end
     # provider
