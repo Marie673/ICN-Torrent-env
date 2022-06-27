@@ -6,7 +6,7 @@ Vagrant.configure("2") do |config|
     config.ssh.insert_key = false
     config.ssh.private_key_path = "~/.ssh/insecure_private_key"
 
-    　# 共通設定
+    # 共通設定
     config.vm.provider "virtualbox" do |vb|
         # Display the VirtualBox GUI when booting the machine
         vb.gui = false
@@ -22,7 +22,7 @@ Vagrant.configure("2") do |config|
         vb.customize ["modifyvm", :id, "--uart4", "off"]
     end
 
-    # config.vm.synced_folder ".share/torrent", "~/torrent"
+    config.vm.synced_folder ".share/torrent", "~/torrent"
 
     # proxy
     config.vm.define "proxy" do |proxy|
@@ -103,8 +103,6 @@ Vagrant.configure("2") do |config|
             provider.vm.provision :shell, inline: "provider_setup.sh"
         end
     end
-
-
 
     # config.vm.provision "shell", inline: <<-SHELL
     #   apt-get update
