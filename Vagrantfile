@@ -83,7 +83,7 @@ Vagrant.configure("2") do |config|
             client.vm.provision :shell, path: "install_cefore.sh"
 
             client.vm.provision :shell, path: "client/cefore_setting.sh"
-            client.vm.provision :shell, run: "always", path: "buffa_tune"
+            client.vm.provision :shell, run: "always", path: "buffa_tune.sh"
         end
     end
     # router
