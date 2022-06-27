@@ -80,7 +80,6 @@ Vagrant.configure("2") do |config|
         proxy.vm.provision :shell, run: "always", path: "buffa_tune.sh"
     end
     # client
-    MAX_OF_CLIENT = (ENV["MAX_OF_CLIENT"] || 1).to_i
     (1..MAX_OF_CLIENT).each do |id|
         config.vm.define "client#{id}" do |client|
             client.vm.provision :shell, path: "install_cefore.sh"
@@ -90,7 +89,6 @@ Vagrant.configure("2") do |config|
         end
     end
     # router
-    MAX_OF_ROUTER = (ENV["MAX_OF_ROUTER"] || 1).to_i
     (1..MAX_OF_ROUTER).each do |id|
         config.vm.define "router#{id}" do |router|
             router.vm.provision :shell, path: "install_cefore.sh"
@@ -99,7 +97,6 @@ Vagrant.configure("2") do |config|
         end
     end
     # provider
-    MAX_OF_PROVIDER = (ENV["MAX_OF_PROVIDER"] || 1).to_i
     (1..MAX_OF_PROVIDER).each do |id|
         config.vm.define "provider#{id}" do |provider|
             provider.vm.provision :shell, path: "install_gnome.sh"

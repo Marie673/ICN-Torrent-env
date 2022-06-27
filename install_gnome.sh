@@ -26,3 +26,5 @@ expect -c "
   send \"${password}\n\"
   expect "
 vncserver -kill :1
+
+cp /share/xstartup.sh .vnc/xstartup.sh
