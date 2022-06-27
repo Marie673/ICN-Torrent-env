@@ -22,7 +22,7 @@ Vagrant.configure("2") do |config|
         #vb.customize ["modifyvm", :id, "--uart4", "off"]
     end
 
-    config.vm.synced_folder "./torrent", "/home/vagrant/torrent"
+    config.vm.synced_folder "./torrent", "/home/vagrant/torrent", type:"virtualbox"
 
     # proxy
     config.vm.define "proxy" do |proxy|
@@ -30,7 +30,7 @@ Vagrant.configure("2") do |config|
         proxy.vm.network "private_network", ip: "192.168.56.10", virtualbox__intnet: true
         proxy.vm.network "private_network", ip: "192.168.57.10", virtualbox__intnet: true
         proxy.vm.network "private_network", ip: "192.168.58.10", virtualbox__intnet: true
-        proxy.vm.synced_folder ".share/proxy", "/share"
+        proxy.vm.synced_folder ".share/proxy", "/share", type:"virtualbox"
     end
 
     # client
@@ -39,7 +39,7 @@ Vagrant.configure("2") do |config|
         config.vm.define "client#{id}" do |client|
             client.vm.hostname = "client#{id}"
             client.vm.network "private_network", ip: "192.168.58.#{100+id}", virtualbox__intnet: true
-            client.vm.synced_folder ".share/client", "/share"
+            client.vm.synced_folder ".share/client", "/share", type:"virtualbox"
         end
     end
 
@@ -51,7 +51,7 @@ Vagrant.configure("2") do |config|
             provider.vm.network "private_network", ip: "192.168.56.#{100+id}", virtualbox__intnet: true
             # 固定 IP を割り当てる場合
             provider.vm.network "public_network"
-            provider.vm.synced_folder ".share/provider", "/share"
+            provider.vm.synced_folder ".share/provider", "/share", type:"virtualbox"
         end
     end
 
@@ -62,7 +62,7 @@ Vagrant.configure("2") do |config|
             router.vm.hostname = "router#{id}"
             router.vm.network "private_network", ip: "192.168.57.#{200+id}", virtualbox__intnet: true
             router.vm.network "private_network", ip: "192.168.58.#{200+id}", virtualbox__intnet: true
-            router.vm.synced_folder ".share/router", "/share"
+            router.vm.synced_folder ".share/router", "/share", type:"virtualbox"
         end
     end
 
