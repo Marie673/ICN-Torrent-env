@@ -1,4 +1,5 @@
 #!/bin/sh
+# install cefore and cefpyco
 
 sudo apt-get install -y autoconf
 wget -q https://ftp.gnu.org/gnu/automake/automake-1.15.1.tar.gz
@@ -16,6 +17,5 @@ cd cefore/ || exit; sudo make install; cd - || exit
 cd cefore/ || exit; sudo ldconfig; cd - || exit
 
 git clone https://github.com/cefore/cefpyco.git
-pip install setuptools click numpy
-cd cefpyco/ || exit; cmake .; cd - || exit
+cd cefpyco/ || exit; cmake .; cd - || exit;
 cd cefpyco/ || exit; sudo make install; cd - || exit

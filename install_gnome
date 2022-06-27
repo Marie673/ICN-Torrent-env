@@ -1,0 +1,22 @@
+#!/bin/sh
+
+sudo apt-get install -y gnome-core
+sudo service gdm start
+sudo apt-get install -y ubuntu-desktop
+sudo apt-get install -y lxde
+
+sudo apt-get install -y vnc4server
+# shellcheck disable=SC2034
+command="vnc4server Password"
+# shellcheck disable=SC2034
+password="Tsax8729"
+expect -c "
+  spawn ${command}
+  expect \"Password:\"
+  send ${password}
+  expect \"Verify\"
+  send ${password}
+  exit 0
+"
+
+cp /share/xstartup.sh .vnc/xstartup.sh
