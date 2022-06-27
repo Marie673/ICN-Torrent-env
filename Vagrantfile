@@ -34,7 +34,7 @@ Vagrant.configure("2") do |config|
         proxy.vm.network "private_network", ip: "192.168.61.10", virtualbox__intnet: true
         proxy.vm.network "private_network", ip: "192.168.62.10", virtualbox__intnet: true
         proxy.vm.synced_folder ".share/proxy", "/share", type:"virtualbox"
-        proxy.vm.network "public_network"
+        proxy.vm.network "public_network", bridge: "enp6s0: Ethernet"
     end
 
     # client
@@ -44,7 +44,7 @@ Vagrant.configure("2") do |config|
             client.vm.hostname = "client#{id}"
             client.vm.network "private_network", ip: "192.168.62.#{100+id}", virtualbox__intnet: true
             client.vm.synced_folder ".share/client", "/share", type:"virtualbox"
-            client.vm.network "public_network"
+            client.vm.network "public_network", bridge: "enp6s0: Ethernet"
         end
     end
 
@@ -55,9 +55,8 @@ Vagrant.configure("2") do |config|
             provider.vm.hostname = "provider#{id}"
             provider.vm.network "private_network", ip: "192.168.60.#{100+id}", virtualbox__intnet: true
             # 固定 IP を割り当てる場合
-            provider.vm.network "public_network"
+            provider.vm.network "public_network", bridge: "enp6s0: Ethernet"
             provider.vm.synced_folder ".share/provider", "/share", type:"virtualbox"
-            provider.vm.network "public_network"
         end
     end
 
@@ -69,7 +68,7 @@ Vagrant.configure("2") do |config|
             router.vm.network "private_network", ip: "192.168.61.#{200+id}", virtualbox__intnet: true
             router.vm.network "private_network", ip: "192.168.62.#{200+id}", virtualbox__intnet: true
             router.vm.synced_folder ".share/router", "/share", type:"virtualbox"
-            router.vm.network "public_network"
+            router.vm.network "public_network", bridge: "enp6s0: Ethernet"
         end
     end
 
