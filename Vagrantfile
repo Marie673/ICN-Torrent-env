@@ -5,6 +5,7 @@ Vagrant.configure("2") do |config|
     config.vm.box = "bento/ubuntu-20.04"
     # config.ssh.insert_key = false
     config.ssh.private_key_path = "~/.ssh/insecure_private_key"
+    config.ssh.password = "vagrant"
 
     # 共通設定
     config.vm.provider "virtualbox" do |vb|
