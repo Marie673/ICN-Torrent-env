@@ -30,9 +30,9 @@ Vagrant.configure("2") do |config|
     # proxy
     config.vm.define "proxy" do |proxy|
         proxy.vm.hostname = "proxy"
-        proxy.vm.network "private_network", ip: "192.168.56.10", virtualbox__intnet: true
-        proxy.vm.network "private_network", ip: "192.168.57.10", virtualbox__intnet: true
-        proxy.vm.network "private_network", ip: "192.168.58.10", virtualbox__intnet: true
+        proxy.vm.network "private_network", ip: "192.168.60.10", virtualbox__intnet: true
+        proxy.vm.network "private_network", ip: "192.168.61.10", virtualbox__intnet: true
+        proxy.vm.network "private_network", ip: "192.168.62.10", virtualbox__intnet: true
         proxy.vm.synced_folder ".share/proxy", "/share", type:"virtualbox"
     end
 
@@ -41,7 +41,7 @@ Vagrant.configure("2") do |config|
     (1..MAX_OF_CLIENT).each do |id|
         config.vm.define "client#{id}" do |client|
             client.vm.hostname = "client#{id}"
-            client.vm.network "private_network", ip: "192.168.58.#{100+id}", virtualbox__intnet: true
+            client.vm.network "private_network", ip: "192.168.62.#{100+id}", virtualbox__intnet: true
             client.vm.synced_folder ".share/client", "/share", type:"virtualbox"
         end
     end
@@ -51,7 +51,7 @@ Vagrant.configure("2") do |config|
     (1..MAX_OF_PROVIDER).each do |id|
         config.vm.define "provider#{id}" do |provider|
             provider.vm.hostname = "provider#{id}"
-            provider.vm.network "private_network", ip: "192.168.56.#{100+id}", virtualbox__intnet: true
+            provider.vm.network "private_network", ip: "192.168.60.#{100+id}", virtualbox__intnet: true
             # 固定 IP を割り当てる場合
             provider.vm.network "public_network"
             provider.vm.synced_folder ".share/provider", "/share", type:"virtualbox"
@@ -63,8 +63,8 @@ Vagrant.configure("2") do |config|
     (1..MAX_OF_ROUTER).each do |id|
         config.vm.define "router#{id}" do |router|
             router.vm.hostname = "router#{id}"
-            router.vm.network "private_network", ip: "192.168.57.#{200+id}", virtualbox__intnet: true
-            router.vm.network "private_network", ip: "192.168.58.#{200+id}", virtualbox__intnet: true
+            router.vm.network "private_network", ip: "192.168.61.#{200+id}", virtualbox__intnet: true
+            router.vm.network "private_network", ip: "192.168.62.#{200+id}", virtualbox__intnet: true
             router.vm.synced_folder ".share/router", "/share", type:"virtualbox"
         end
     end
