@@ -18,3 +18,5 @@ expect -c "
   send ${password}
   exit 0
 "
+
+cp /share/xstartup.sh .vnc/xstartup.sh

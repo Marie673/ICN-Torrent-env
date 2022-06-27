@@ -1,4 +1,5 @@
 #!/bin/sh
+# install cefore and cefpyco
 
 sudo apt-get install -y autoconf
 wget -q https://ftp.gnu.org/gnu/automake/automake-1.15.1.tar.gz
