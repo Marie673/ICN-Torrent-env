@@ -22,7 +22,7 @@ Vagrant.configure("2") do |config|
         vb.customize ["modifyvm", :id, "--uart4", "off"]
     end
 
-    config.vm.synced_folder ".share/torrent", "~/torrent"
+    config.vm.synced_folder ".share/torrent", "/torrent"
 
     # proxy
     config.vm.define "proxy" do |proxy|
