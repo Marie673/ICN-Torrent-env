@@ -71,36 +71,36 @@ Vagrant.configure("2") do |config|
     config.vm.provision :shell, path: "common.sh"
     # proxy
     config.vm.define "proxy" do |proxy|
-        proxy.vm.provision :shell, inline: "install_cefore.sh"
+        proxy.vm.provision :shell, path: "install_cefore.sh"
         # ceforeの設定
-        proxy.vm.provision :shell, inline: "proxy/cefore_setting.sh"
-        proxy.vm.provision :shell, run: "always", inline: "buffa_tune.sh"
+        proxy.vm.provision :shell, path: "proxy/cefore_setting.sh"
+        proxy.vm.provision :shell, run: "always", path: "buffa_tune.sh"
     end
     # client
     MAX_OF_CLIENT = (ENV["MAX_OF_CLIENT"] || 1).to_i
     (1..MAX_OF_CLIENT).each do |id|
         config.vm.define "client#{id}" do |client|
-            client.vm.provision :shell, inline: "install_cefore.sh"
+            client.vm.provision :shell, path: "install_cefore.sh"
 
-            client.vm.provision :shell, inline: "client/cefore_setting.sh"
-            client.vm.provision :shell, run: "always", inline: "buffa_tune"
+            client.vm.provision :shell, path: "client/cefore_setting.sh"
+            client.vm.provision :shell, run: "always", path: "buffa_tune"
         end
     end
     # router
     MAX_OF_ROUTER = (ENV["MAX_OF_ROUTER"] || 1).to_i
     (1..MAX_OF_ROUTER).each do |id|
         config.vm.define "router#{id}" do |router|
-            router.vm.provision :shell, inline: "install_cefore.sh"
-            router.vm.provision :shell, inline: "router.cefore_setting.sh"
-            router.vm.provision :shell, run: "always", inline: "buffa_tune.sh"
+            router.vm.provision :shell, path: "install_cefore.sh"
+            router.vm.provision :shell, path: "router.cefore_setting.sh"
+            router.vm.provision :shell, run: "always", path: "buffa_tune.sh"
         end
     end
     # provider
     MAX_OF_PROVIDER = (ENV["MAX_OF_PROVIDER"] || 1).to_i
     (1..MAX_OF_PROVIDER).each do |id|
         config.vm.define "provider#{id}" do |provider|
-            provider.vm.provision :shell, inline: "install_gnome.sh"
-            provider.vm.provision :shell, inline: "provider_setup.sh"
+            provider.vm.provision :shell, path: "install_gnome.sh"
+            provider.vm.provision :shell, path: "provider_setup.sh"
         end
     end
 
