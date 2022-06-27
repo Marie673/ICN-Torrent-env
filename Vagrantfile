@@ -4,7 +4,7 @@
 Vagrant.configure("2") do |config|
     config.vm.box = "bento/ubuntu-20.04"
     config.ssh.insert_key = false
-    # config.ssh.private_key_path = "~/.ssh/insecure_private_key"
+    config.ssh.private_key_path = "~/.ssh/insecure_private_key"
     # config.ssh.private_key_path = "~/.ssh/id_rsa"
     # config.ssh.verify_host_key
     # config.ssh.password = "vagrant"
@@ -15,7 +15,7 @@ Vagrant.configure("2") do |config|
         vb.gui = false
         # Customize the amount of memory on the VM:
         vb.memory = "8192"
-        vb.customize ["modifyvm", :id, "--cableconnected1", "on"]
+        # vb.customize ["modifyvm", :id, "--cableconnected1", "on"]
         vb.customize ["modifyvm", :id, "--uart1", "0x3F8", "4"]
         vb.customize ["modifyvm", :id, "--uartmode1", "file", File::NULL]
         vb.customize ["modifyvm", :id, "--audio", "none"]
