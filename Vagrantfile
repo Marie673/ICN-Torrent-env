@@ -4,8 +4,10 @@
 Vagrant.configure("2") do |config|
     config.vm.box = "bento/ubuntu-20.04"
     config.ssh.insert_key = false
-    config.ssh.private_key_path = "~/.ssh/insecure_private_key"
-    #config.ssh.password = "vagrant"
+    # config.ssh.private_key_path = "~/.ssh/insecure_private_key"
+    config.ssh.private_key_path = "~/.ssh/id_rsa"
+    # config.ssh.verify_host_key
+    # config.ssh.password = "vagrant"
 
     # 共通設定
     config.vm.provider "virtualbox" do |vb|
@@ -23,7 +25,7 @@ Vagrant.configure("2") do |config|
         vb.customize ["modifyvm", :id, "--uart4", "off"]
     end
 
-    config.vm.synced_folder "./torrent", "/home/vagrant/torrent", type:"virtualbox"
+    config.vm.synced_folder "./torrent", "/home/vagrant/torrent", type:"virtualbox", type:"sshfs"
 
     # proxy
     config.vm.define "proxy" do |proxy|
