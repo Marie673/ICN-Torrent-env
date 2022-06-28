@@ -16,6 +16,9 @@ Vagrant.configure("2") do |config|
         # Customize the amount of memory on the VM:
         vb.memory = "8192"
         vb.customize ["modifyvm", :id, "--cableconnected1", "on"]
+        vb.customize ["modifyvm", :id, "--cableconnected2", "on"]
+        vb.customize ["modifyvm", :id, "--cableconnected3", "on"]
+        vb.customize ["modifyvm", :id, "--cableconnected4", "on"]
         vb.customize ["modifyvm", :id, "--uart1", "0x3F8", "4"]
         vb.customize ["modifyvm", :id, "--uartmode1", "file", File::NULL]
 
