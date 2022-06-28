@@ -56,12 +56,12 @@ Vagrant.configure("2") do |config|
     # provider
     MAX_OF_PROVIDER = (ENV["MAX_OF_PROVIDER"] || 1).to_i
     (1..MAX_OF_PROVIDER).each do |id|
-        config.vm.define "provider#{id}" do |provider|
-            provider.vm.hostname = "provider#{id}"
-            provider.vm.network "private_network", ip: "192.168.60.#{100+id}", virtualbox__intnet: true
+        config.vm.define "provider#{id}" do |ipuser|
+            ipuser.vm.hostname = "provider#{id}"
+            ipuser.vm.network "private_network", ip: "192.168.60.#{100+id}", virtualbox__intnet: true
             # 固定 IP を割り当てる場合
-            provider.vm.network "public_network", bridge: "enp6s0"
-            provider.vm.synced_folder ".share/provider", "/share", type:"virtualbox"
+            ipuser.vm.network "public_network", bridge: "enp6s0"
+            ipuser.vm.synced_folder ".share/provider", "/share", type:"virtualbox"
         end
     end
 
