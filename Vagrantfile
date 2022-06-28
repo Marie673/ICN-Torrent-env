@@ -106,9 +106,9 @@ Vagrant.configure("2") do |config|
     end
     # provider
     (1..MAX_OF_PROVIDER).each do |id|
-        config.vm.define "provider#{id}" do |provider|
-            provider.vm.provision :shell, path: "install_gnome.sh"
-            provider.vm.provision :shell, path: "provider_setup.sh"
+        config.vm.define "provider#{id}" do |ipuser|
+            ipuser.vm.provision :shell, path: "install_gnome.sh"
+            ipuser.vm.provision :shell, path: "provider_setup.sh"
         end
     end
 
