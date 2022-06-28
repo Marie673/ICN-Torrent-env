@@ -95,7 +95,7 @@ Vagrant.configure("2") do |config|
     (1..MAX_OF_ROUTER).each do |id|
         config.vm.define "router#{id}" do |router|
             router.vm.provision :shell, path: "install_cefore.sh"
-            router.vm.provision :shell, path: "router.cefore_setting.sh"
+            router.vm.provision :shell, path: "router/cefore_setting.sh"
             router.vm.provision :shell, run: "always", path: "buffa_tune.sh"
         end
     end
