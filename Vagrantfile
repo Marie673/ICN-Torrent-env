@@ -4,7 +4,7 @@
 Vagrant.configure("2") do |config|
     config.vm.box = "ubuntu/focal64"
     config.ssh.insert_key = false
-    config.ssh.private_key_path = "~/.vagrant.d/insecure_private_key"
+    config.ssh.private_key_path = "~/.ssh/insecure_private_key"
     # config.ssh.private_key_path = "~/.ssh/id_rsa"
     # config.ssh.verify_host_key
     # config.ssh.password = "vagrant"
