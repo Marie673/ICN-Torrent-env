@@ -1,0 +1,37 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+
+Vagrant.configure("2") do |config|
+    config.vm.box = "ubuntu/focal64"
+    config.ssh.insert_key = false
+    config.ssh.private_key_path = "~/.ssh/insecure_private_key"
+
+    # 共通設定
+    config.vm.provider "virtualbox" do |vb|
+        vb.gui = false
+        vb.memory = "8192"
+        vb.customize ["modifyvm", :id, "--cableconnected1", "on"]
+        vb.customize ["modifyvm", :id, "--uart1", "0x3F8", "4"]
+        vb.customize ["modifyvm", :id, "--uartmode1", "file", File::NULL]
+    end
+
+    config.vm.synced_folder "./torrent", "/home/vagrant/torrent", type:"virtualbox"
+
+    # proxy
+    config.vm.define "proxy" do |proxy|
+        proxy.vm.hostname = "proxy"
+        proxy.vm.network "private_network", ip: "192.168.60.10", virtualbox__intnet: true
+        proxy.vm.network "private_network", ip: "192.168.61.10", virtualbox__intnet: true
+        proxy.vm.network "private_network", ip: "192.168.62.10", virtualbox__intnet: true
+        proxy.vm.synced_folder ".share/proxy", "/share", type:"virtualbox"
+        proxy.vm.network "public_network", bridge: "enp6s0"
+
+        proxy.vm.provision :shell, path: "../bash/common.sh"
+        proxy.vm.provision :shell, path: "../bash/install_cefore.sh"
+        # ceforeの設定
+        proxy.vm.provision :shell, path: "proxy/cefore_setting.sh"
+        proxy.vm.provision :shell, run: "always", path: "buffa_tune.sh"
+    end
+
+end
