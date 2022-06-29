@@ -1,0 +1,34 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+    config.vm.box = "ubuntu/focal64"
+    config.ssh.insert_key = false
+    config.ssh.private_key_path = "~/.ssh/vagrant/qbittorrent"
+
+    # 共通設定
+    config.vm.provider "virtualbox" do |vb|
+        vb.gui = false
+        vb.memory = "8192"
+        vb.customize ["modifyvm", :id, "--cableconnected1", "on"]
+        vb.customize ["modifyvm", :id, "--uart1", "0x3F8", "4"]
+        vb.customize ["modifyvm", :id, "--uartmode1", "file", File::NULL]
+    end
+
+    config.vm.synced_folder "../.share/torrent", "/home/vagrant/torrent"
+    config.vm.synced_folder "./.share", "/share"
+
+    # provider
+    MAX_OF_PROVIDER = (ENV["MAX_OF_PROVIDER"] || 1).to_i
+    (1..MAX_OF_PROVIDER).each do |id|
+        config.vm.define "provider#{id}" do |ipuser|
+            ipuser.vm.hostname = "provider#{id}"
+            ipuser.vm.network "private_network", ip: "192.168.60.#{100+id}", virtualbox__intnet: true
+            # 固定 IP を割り当てる場合
+            ipuser.vm.network "public_network", bridge: "enp6s0"
+
+            ipuser.vm.provision :shell, path: "../bash/common.sh"
+            ipuser.vm.provision :shell, path: "../bash/install_gnome.sh"
+            ipuser.vm.provision :shell, path: "../bash/provider_setup.sh"
+        end
+    end
