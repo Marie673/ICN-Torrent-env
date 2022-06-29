@@ -23,7 +23,7 @@ Vagrant.configure("2") do |config|
     MAX_OF_ROUTER = (ENV["MAX_OF_ROUTER"] || 1).to_i
     (1..MAX_OF_ROUTER).each do |id|
         config.vm.define "router#{id}" do |router|
-            router.vm.hostname = "client#{id}"
+            router.vm.hostname = "router#{id}"
             router.vm.network "private_network", ip: "192.168.61.#{100+id}", virtualbox__intnet: true
             router.vm.network "private_network", ip: "192.168.62.#{100+id}", virtualbox__intnet: true
             router.vm.network "public_network", bridge: "enp6s0"
