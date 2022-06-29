@@ -31,7 +31,7 @@ Vagrant.configure("2") do |config|
             client.vm.provision :shell, path: "../bash/install_cefore.sh"
             # ceforeの設定
             client.vm.provision :shell, path: "../bash/cefore_setting.sh"
-            client.vm.provision :shell, run: "always", path: "buffa_tune.sh"
+            client.vm.provision :shell, run: "always", path: "../bash/buffa_tune.sh"
         end
     end
 end
